@@ -19,7 +19,7 @@ registerQmlType({
         this.css.backgroundColor = QMLColor(newVal);
     });
     this.radiusChanged.connect(this, function(newVal) {
-        this.css.borderRadius = newVal + 'px';
+        this.css.borderRadius = newVal + "px";
     });
     this.border.colorChanged.connect(this, function(newVal) {
         this.css.borderColor = QMLColor(newVal);
@@ -53,6 +53,8 @@ registerQmlType({
     this.css.borderColor = 'black';
 
     this.$drawItem = function(c) {
+        //descr("draw rect", this, ["x", "y", "width", "height", "color"]);
+        //descr("draw rect.border", this.border, ["color", "width"]);
         c.save();
         c.fillStyle = this.color;
         c.strokeStyle = this.border.color;
