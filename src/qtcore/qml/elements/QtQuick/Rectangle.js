@@ -12,35 +12,49 @@ registerQmlType({
     this.border = new QObject(this);
     createSimpleProperty("color", this.border, "color");
     createSimpleProperty("int", this.border, "width");
-
-    this.border.color = 'black';
+    this.border.color = "black"; 
     this.border.width = 1;
 
     this.colorChanged.connect(this, function(newVal) {
         this.css.backgroundColor = QMLColor(newVal);
     });
     this.radiusChanged.connect(this, function(newVal) {
-        this.css.borderRadius = newVal + 'px';
+        this.css.borderRadius = newVal + "px";
     });
     this.border.colorChanged.connect(this, function(newVal) {
         this.css.borderColor = QMLColor(newVal);
-        this.css.borderWidth = this.border.width + 'px';
+
+        if (this.css.borderWidth == "0px") {
+            this.css.borderWidth = this.border.width+'px';
+        }
+
+        this.$updateBorder(this.border.width);
     });
     this.border.widthChanged.connect(this, function(newVal) {
-        if (this.width > 0 && this.height > 0){
-            this.css.borderWidth = newVal + "px";
-        } else {
+            // ignor negative border width
+        if (newVal >= 0) {
+            this.$updateBorder(newVal);        
+        }else {
             this.css.borderWidth = "0px";
         }
     });
 
+    this.widthChanged.connect(this, function(newVal){
+       this.$updateBorder(); 
+    });
+    this.heightChanged.connect(this, function(newVal){
+       this.$updateBorder(); 
+    });
+
     this.color = "white";
     this.radius = 0;
-    this.css.borderWidth ='0px';
-    this.css.borderStyle = 'solid';
-    this.css.borderColor = 'black';
+    this.css.borderWidth = "0px";
+    this.css.borderStyle = "solid";
+    this.css.boxSizing = "border-box";
 
     this.$drawItem = function(c) {
+        //descr("draw rect", this, ["x", "y", "width", "height", "color"]);
+        //descr("draw rect.border", this.border, ["color", "width"]);
         c.save();
         c.fillStyle = this.color;
         c.strokeStyle = this.border.color;
@@ -66,6 +80,48 @@ registerQmlType({
             c.fill();
         }
         c.restore();
-    }
+    };
   }
-});
+  
+QMLRectangle.prototype.$updateBorder = function(newVal) {
+    // ignor negative border width
+    if (newVal < 0) {
+        return;
+    }
+
+    // hide border if any of dimensions is less then one
+    if (this.width <= 0 || this.height <= 0 || this.width == undefined || this.height == undefined) 
+    {
+        this.css.borderWidth = '0px';
+        return;
+    }
+
+    // check if border is not greater than Rectangle size
+    if (this.width > 0 && this.height > 0){
+        var topBottom = newVal == undefined ? this.css.borderWidth : newVal + 'px';
+        var leftRight = topBottom;
+                
+        if (2 * this.border.width > this.height) {
+            topBottom = this.height/2 + 'px';
+            this.css.height = '0px';
+        }else {
+            if ( this.height - 2 * this.border.width < this.border.width){
+                this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
+            }
+        }
+
+        if (2 * this.border.width > this.width) {
+            leftRight = this.width/2 + 'px';
+            this.css.width = '0px';
+        }else {
+            if (this.width - 2 * this.border.width < this.border.width) {
+                this.css.width = (this.width%2 ? -1 : -2 + this.width + ( this.width - (2*this.border.width))) + 'px';
+            }
+        }
+
+        this.css.borderTopWidth = topBottom;
+        this.css.borderBottomWidth = topBottom;
+        this.css.borderLeftWidth = leftRight;
+        this.css.borderRightWidth = leftRight;
+    }
+};
