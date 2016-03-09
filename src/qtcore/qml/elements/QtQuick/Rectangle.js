@@ -105,18 +105,22 @@ QMLRectangle.prototype.$updateBorder = function(newVal) {
             topBottom = this.height/2 + 'px';
             this.css.height = '0px';
         }else {
-            if ( this.height - 2 * this.border.width < this.border.width){
-                this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
-            }
+          if (topBottom !== "0px"){
+              if ( this.height - 2 * this.border.width < this.border.width){
+                  this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
+              }
+          }
         }
 
         if (2 * this.border.width > this.width) {
             leftRight = this.width/2 + 'px';
             this.css.width = '0px';
         }else {
-            if (this.width - 2 * this.border.width < this.border.width) {
-                this.css.width = (this.width%2 ? -1 : -2 + this.width + ( this.width - (2*this.border.width))) + 'px';
-            }
+          if (leftRight !== "0px")
+              if (this.width - 2 * this.border.width < this.border.width) {
+                  this.css.width = (this.width%2 ? -1 : -2 + this.width + ( this.width - (2*this.border.width))) + 'px';
+              }
+          }
         }
 
         this.css.borderTopWidth = topBottom;
