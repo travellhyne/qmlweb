@@ -155,7 +155,7 @@ function construct(meta) {
                 item.dom.className += " " + meta.object.$class + (meta.object.id ? " " + meta.object.id : "");
             var dProp; // Handle default properties
         } else {
-            console.log("No constructor found for " + meta.object.$class);
+            throw Error("No constructor found for " + meta.object.$class);
             return;
         }
     }
