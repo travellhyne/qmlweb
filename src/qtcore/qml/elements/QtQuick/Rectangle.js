@@ -81,43 +81,45 @@ registerQmlType({
     };
   }
   
-QMLRectangle.prototype.$updateBorder = function(newVal) {
-    // ignor negative border width and update border only if border width was set
-    if (newVal < 0 || this.css.borderWidth == "0px") {
+// n
+QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
+    // ignor negative border width and update border if was not set
+    if (newBorderWidth < 0 || ( typeof newBorderWidth == undefined && this.css.borderWidth == "0px")) {
         return;
     }
-
-    // hide border if any of dimensions is less or equal 0px
+    
+    // hide border if any of dimensions is less then one
     if (this.width <= 0 || this.height <= 0 || this.width == undefined || this.height == undefined) 
     {
         this.css.borderWidth = '0px';
         return;
     }
-
-    
+                        
+    // check if border is not greater than Rectangle size
     if (this.width > 0 && this.height > 0){
-        var topBottom = newVal == undefined ? this.css.borderWidth : newVal + 'px';
+        var topBottom = newBorderWidth == undefined ? this.css.borderWidth : newBorderWidth + 'px';
         var leftRight = topBottom;
                 
-	// if border is not greater than Rectangle size. Otherwise change div size.
         if (2 * this.border.width > this.height) {
             topBottom = this.height/2 + 'px';
             this.css.height = '0px';
         }else {
+            //if (topBottom !== "0px")
             if ( this.height - 2 * this.border.width < this.border.width){
                 this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
             }
         }
-		
+
         if (2 * this.border.width > this.width) {
             leftRight = this.width/2 + 'px';
             this.css.width = '0px';
         }else {
+            //if (leftRight !== "0px")
             if (this.width - 2 * this.border.width < this.border.width) {
                 this.css.width = (this.width%2 ? -1 : -2 + this.width + ( this.width - (2*this.border.width))) + 'px';
             }
         }
-
+        
         this.css.borderTopWidth = topBottom;
         this.css.borderBottomWidth = topBottom;
         this.css.borderLeftWidth = leftRight;
