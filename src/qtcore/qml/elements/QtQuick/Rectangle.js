@@ -12,14 +12,14 @@ registerQmlType({
     this.border = new QObject(this);
     createSimpleProperty("color", this.border, "color");
     createSimpleProperty("int", this.border, "width");
-    this.border.color = "black"; 
+    this.border.color = 'black'; 
     this.border.width = 1;
 
     this.colorChanged.connect(this, function(newVal) {
         this.css.backgroundColor = QMLColor(newVal);
     });
     this.radiusChanged.connect(this, function(newVal) {
-        this.css.borderRadius = newVal + "px";
+        this.css.borderRadius = newVal + 'px';
     });
     this.border.colorChanged.connect(this, function(newVal) {
         this.css.borderColor = QMLColor(newVal);
