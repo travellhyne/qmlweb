@@ -53,8 +53,6 @@ registerQmlType({
     this.css.boxSizing = "border-box";
 
     this.$drawItem = function(c) {
-        //descr("draw rect", this, ["x", "y", "width", "height", "color"]);
-        //descr("draw rect.border", this.border, ["color", "width"]);
         c.save();
         c.fillStyle = this.color;
         c.strokeStyle = this.border.color;
