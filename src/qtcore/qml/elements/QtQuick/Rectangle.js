@@ -94,11 +94,12 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
         return;
     }
 
-    // check if border is not greater than Rectangle size
+    
     if (this.width > 0 && this.height > 0){
         var topBottom = newBorderWidth == undefined ? this.css.borderWidth : newBorderWidth + 'px';
         var leftRight = topBottom;
                 
+	// if border is not greater than Rectangle size. Otherwise change div size.
         if (2 * this.border.width > this.height) {
             topBottom = this.height/2 + 'px';
             this.css.height = '0px';
@@ -107,7 +108,7 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
                 this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
             }
         }
-
+		
         if (2 * this.border.width > this.width) {
             leftRight = this.width/2 + 'px';
             this.css.width = '0px';
