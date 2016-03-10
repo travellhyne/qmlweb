@@ -19,7 +19,7 @@ registerQmlType({
         this.css.backgroundColor = QMLColor(newVal);
     });
     this.radiusChanged.connect(this, function(newVal) {
-        this.css.borderRadius = newVal + "px";
+        this.css.borderRadius = newVal + 'px';
     });
     this.border.colorChanged.connect(this, function(newVal) {
         this.css.borderColor = QMLColor(newVal);
