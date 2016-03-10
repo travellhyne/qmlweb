@@ -93,7 +93,7 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
         this.css.borderWidth = '0px';
         return;
     }
-                        
+
     // check if border is not greater than Rectangle size
     if (this.width > 0 && this.height > 0){
         var topBottom = newBorderWidth == undefined ? this.css.borderWidth : newBorderWidth + 'px';
@@ -103,7 +103,6 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
             topBottom = this.height/2 + 'px';
             this.css.height = '0px';
         }else {
-            //if (topBottom !== "0px")
             if ( this.height - 2 * this.border.width < this.border.width){
                 this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
             }
@@ -113,7 +112,6 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
             leftRight = this.width/2 + 'px';
             this.css.width = '0px';
         }else {
-            //if (leftRight !== "0px")
             if (this.width - 2 * this.border.width < this.border.width) {
                 this.css.width = (this.width%2 ? -1 : -2 + this.width + ( this.width - (2*this.border.width))) + 'px';
             }
