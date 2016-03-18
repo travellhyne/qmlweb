@@ -86,7 +86,7 @@ registerQmlType({
 
 QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
     // ignor negative border width and update border if was not set
-    if (newBorderWidth < 0 || ( typeof newBorderWidth == undefined && this.css.borderWidth == "0px")) {
+    if (newBorderWidth < 0 || ( typeof newBorderWidth === "undefined" && this.css.borderWidth == "0px")) {
         return;
     }
     
@@ -98,15 +98,15 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
     }
 
     // check if border is not greater than Rectangle size
-    if (this.width > 0 && this.height > 0){
-        var topBottom = newBorderWidth == undefined ? this.css.borderWidth : newBorderWidth + 'px';
+    if (this.width > 0 && this.height > 0) {
+        var topBottom = typeof newBorderWidth === "undefined" ? this.css.borderWidth : newBorderWidth + 'px';
         var leftRight = topBottom;
                 
         if (2 * this.border.width > this.height) {
             topBottom = this.height/2 + 'px';
             this.css.height = '0px';
         }else {
-            if ( this.height - 2 * this.border.width < this.border.width){
+            if ( this.height - 2 * this.border.width < this.border.width) {
                 this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
             }
         }
