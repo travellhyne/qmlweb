@@ -86,17 +86,17 @@ registerQmlType({
 
 QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
     // ignor negative border width and update border if was not set
-    if (newBorderWidth < 0 || ( typeof newBorderWidth === "undefined" && this.css.borderWidth == "0px")) {
+    if (newBorderWidth == "0px" || newBorderWidth < 0 || ( typeof newBorderWidth === "undefined" && this.css.borderWidth == "0px")) {
         return;
     }
     
     // hide border if any of dimensions is less then one
-    if (this.width <= 0 || this.height <= 0 || this.width == undefined || this.height == undefined) 
+    if (this.width <= 0 || this.height <= 0 || typeof this.width === "undefined" || typeof this.height === "undefined") 
     {
         this.css.borderWidth = '0px';
         return;
     }
-
+                        
     // check if border is not greater than Rectangle size
     if (this.width > 0 && this.height > 0) {
         var topBottom = typeof newBorderWidth === "undefined" ? this.css.borderWidth : newBorderWidth + 'px';
@@ -107,7 +107,9 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
             this.css.height = '0px';
         }else {
             if ( this.height - 2 * this.border.width < this.border.width) {
-                this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
+                if (this.height > 2) {
+                    this.css.height = (this.height%2 ? -1 : -2 + this.height + (this.height - (2*this.border.width))) + 'px';
+                }
             }
         }
 
@@ -116,7 +118,9 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
             this.css.width = '0px';
         }else {
             if (this.width - 2 * this.border.width < this.border.width) {
-                this.css.width = (this.width%2 ? -1 : -2 + this.width + ( this.width - (2*this.border.width))) + 'px';
+                if (this.width > 2) {
+                    this.css.width = (this.width%2 ? -1 : -2 + this.width + ( this.width - (2*this.border.width))) + 'px';
+                }
             }
         }
         
