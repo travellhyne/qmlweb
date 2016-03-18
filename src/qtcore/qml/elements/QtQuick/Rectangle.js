@@ -43,10 +43,10 @@ registerQmlType({
     });
 
     this.widthChanged.connect(this, function(newVal){
-       this.$updateBorder(); 
+       this.$updateBorder(this.css.borderWidth); 
     });
     this.heightChanged.connect(this, function(newVal){
-       this.$updateBorder(); 
+       this.$updateBorder(this.css.borderWidth); 
     });
 
     this.color = "white";
