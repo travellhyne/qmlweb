@@ -43,10 +43,10 @@ registerQmlType({
     });
 
     this.widthChanged.connect(this, function(newVal){
-       this.$updateBorder(this.css.borderWidth); 
+       this.$updateBorder(this.border.width); 
     });
     this.heightChanged.connect(this, function(newVal){
-       this.$updateBorder(this.css.borderWidth); 
+       this.$updateBorder(this.border.width); 
     });
 
     this.color = "white";
@@ -85,23 +85,29 @@ registerQmlType({
   }
 
 QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
-    // ignor negative border width and update border if was not set
-    if (newBorderWidth == "0px" || newBorderWidth < 0 || ( typeof newBorderWidth === "undefined" && this.css.borderWidth == "0px")) {
+    // ignor negative and 0px border width
+    if (newBorderWidth == "0px" || newBorderWidth < 0) {
         return;
     }
-    
-    // hide border if any of dimensions is less then one
+    // no Rectangle border width was set yet
+    if ( (newBorderWidth == "1" && this.css.borderWidth == "0px") || ( typeof newBorderWidth === "undefined" && this.css.borderWidth == "0px") ) {
+     return;
+    }
+
+    var topBottom = typeof newBorderWidth === "undefined" ? this.css.borderWidth : newBorderWidth + 'px';
+    var leftRight = topBottom;
+
+
+    // hide border if any of dimensions is less then one or undefined
     if (this.width <= 0 || this.height <= 0 || typeof this.width === "undefined" || typeof this.height === "undefined") 
     {
         this.css.borderWidth = '0px';
-        return;
     }
-                        
-    // check if border is not greater than Rectangle size
-    if (this.width > 0 && this.height > 0) {
-        var topBottom = typeof newBorderWidth === "undefined" ? this.css.borderWidth : newBorderWidth + 'px';
-        var leftRight = topBottom;
-                
+    else
+    {
+        // check if border is not greater than Rectangle size
+        // react by change of width or height of div (in css)
+        
         if (2 * this.border.width > this.height) {
             topBottom = this.height/2 + 'px';
             this.css.height = '0px';
@@ -123,10 +129,10 @@ QMLRectangle.prototype.$updateBorder = function(newBorderWidth) {
                 }
             }
         }
-        
-        this.css.borderTopWidth = topBottom;
-        this.css.borderBottomWidth = topBottom;
-        this.css.borderLeftWidth = leftRight;
-        this.css.borderRightWidth = leftRight;
     }
+
+    this.css.borderTopWidth = topBottom;
+    this.css.borderBottomWidth = topBottom;
+    this.css.borderLeftWidth = leftRight;
+    this.css.borderRightWidth = leftRight;
 };
