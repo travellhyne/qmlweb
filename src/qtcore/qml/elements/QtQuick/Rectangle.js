@@ -3,7 +3,10 @@ registerQmlType({
   name:   'Rectangle',
   versions: /.*/,
   baseClass: QMLItem,
-  constructor: function QMLRectangle(meta) {
+  constructor: QMLRectangle
+});
+  
+  function QMLRectangle(meta) {
     QMLItem.call(this, meta);
 
     createSimpleProperty("color", this, "color");
