@@ -127,10 +127,22 @@ QMLEngine = function (element, options) {
 
         this.start();
 
-        // Call completed signals
+        // #engine [engine::loadQMLTree] -> [engine::callCompletedSignals]
+        this.callCompletedSignals();
+    }
+
+    this.callCompletedSignals = function () {
+        // the while loop is better than for..in loop, because completedSignals array might change dynamically when
+        // some completed signal handlers will create objects dynamically via createQmlObject or Loader
+        while (this.completedSignals.length > 0) {
+           var h = this.completedSignals.splice(0,1); // remove first handler from list and put it to `h`
+           h[0](); // call first handler
+        }
+        /* old way:
         for (var i in this.completedSignals) {
             this.completedSignals[i]();
         }
+        */
     }
 
     /** from http://docs.closure-library.googlecode.com/git/local_closure_goog_uri_uri.js.source.html
