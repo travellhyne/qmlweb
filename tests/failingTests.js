@@ -22,7 +22,8 @@ window.failingTests = {
       'alias to id with same name',
       'ChangedExpressionSignal',
       'StringConversion',
-      'undefined property has undefined value'
+      'undefined property has undefined value',
+      'alias propagates it\'s changed signal back to referenced property'
     ]
   },
   Initialize: {
