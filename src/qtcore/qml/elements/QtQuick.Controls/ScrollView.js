@@ -9,7 +9,7 @@ registerQmlType({
     var self = this;
     
  
-    this.dom.style.pointerEvents = "auto";
+    this.css.pointerEvents = "auto";
     this.setupFocusOnDom(this.dom);
     
     createSimpleProperty("Item", this, "contentItem");
@@ -34,7 +34,7 @@ registerQmlType({
     this.viewportChanged.connect(this, function(newViewport){});
     
     this.frameVisibleChanged.connect(this, function(visible){
-        this.dom.style.border= visible ? "1px solid gray" : "hidden";
+        this.css.border= visible ? "1px solid gray" : "hidden";
     });
     this.highlightOnFocusChanged.connect(this, function(highlight){
 
@@ -57,7 +57,7 @@ registerQmlType({
             }
         }
                     
-       this.dom.style.overflowX = newVal;
+       this.css.overflowX = newVal;
     });
     this.verticalScrollBarPolicyChanged.connect(this, function(newPolicy){
         var newVal = "auto";
@@ -76,7 +76,7 @@ registerQmlType({
             }            
         }
             
-        this.dom.style.overflowY = newVal;
+        this.css.overflowY = newVal;
     });
     
     this.styleChanged.connect(this, function(newStyle){});
@@ -88,7 +88,7 @@ registerQmlType({
        }
     });
     this.focusChanged.connect(this, function(focus){
-        this.dom.style.outline = self.highlight && focus ? "outline: lightblue solid 2px;" : "";
+        this.css.outline = self.highlight && focus ? "outline: lightblue solid 2px;" : "";
     });
  
     this.width = this.implicitWidth = 240;  // default QML ScrollView width
