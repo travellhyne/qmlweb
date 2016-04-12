@@ -209,18 +209,12 @@ function updateChildrenRect(component) {
     var maxHeight = 0;
     var minX = children.length>0 ? children[0].x : 0;
     var minY = children.length>0 ? children[0].y : 0;
-    var h=0;
-    var w=0;
     var child;
 
     for (var i=0;i<children.length; i++){
         child = children[i];
-
-        h = child.$isUsingImplicitHeight ? child.implicitHeight : child.height;
-        w = child.$isUsingImplicitWidth ? child.implicitWidth : child.width;
-
-        maxWidth = Math.max(maxWidth, child.x + w);
-        maxHeight = Math.max(maxHeight, child.y + h);
+        maxWidth = Math.max(maxWidth, child.x + child.width);
+        maxHeight = Math.max(maxHeight, child.y + child.heighth);
         minX = Math.min(minX, child.x);
         minY = Math.min(minX, child.y);
     }
