@@ -18,6 +18,8 @@ registerQmlType({
     createSimpleProperty("string", this, "text");
     createSimpleProperty("bool", this, "checked");
     createSimpleProperty("color", this, "color");
+    createSimpleProperty("int", this, "checkedState");
+    createSimpleProperty("bool", this, "partiallyCheckedEnabled");
 
     this.Component.completed.connect(this, function() {
         this.implicitHeight = this.dom.offsetHeight;
@@ -33,7 +35,26 @@ registerQmlType({
     });
 
     this.checkedChanged.connect(this, function(newVal) {
-        this.dom.firstChild.checked = self.checked;
+        if (self.partiallyCheckedEnabled && !newVal) {
+          this.dom.firstChild.indeterminate = true;
+        } else {
+          this.dom.firstChild.checked = self.checked;
+        }
+    });
+
+    this.checkedStateChanged.connect(this, function(newVal) {
+      switch(newVal) {
+        case Qt.UnChecked:
+          self.checked = false;
+          break;
+        case Qt.Checked:
+          self.checked = true;
+          break;
+        case Qt.PartiallyChecked:
+          self.partiallyCheckedEnabled = true;
+          self.checked = false;
+          break;
+      }
     });
 
     this.dom.firstChild.onchange = function() {

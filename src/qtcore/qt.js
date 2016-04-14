@@ -67,7 +67,7 @@ global.Qt = {
     if (!url || !url.substr) // url is not a string object
       return url;
 
-    // Must check for cases: D:/, file://, http://, or slash at the beginning. 
+    // Must check for cases: D:/, file://, http://, or slash at the beginning.
     // This means the url is absolute => we have to skip processing (except removing dot segments).
     if (url == "" || url.indexOf(":/") != -1 || url.indexOf("/") == 0)
       return engine.removeDotSegments( url );
@@ -289,5 +289,9 @@ global.Qt = {
   PortraitOrientation: 1,
   LandscapeOrientation: 2,
   InvertedPortraitOrientation: 4,
-  InvertedLandscapeOrientation: 8
+  InvertedLandscapeOrientation: 8,
+  // Checked State
+  UnChecked: 0,
+  Checked: 1,
+  PartiallyChecked: 2
 }
