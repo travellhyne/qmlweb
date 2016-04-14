@@ -35,26 +35,32 @@ registerQmlType({
     });
 
     this.checkedChanged.connect(this, function(newVal) {
-        if (self.partiallyCheckedEnabled && !newVal) {
-          this.dom.firstChild.indeterminate = true;
-        } else {
-          this.dom.firstChild.checked = self.checked;
-        }
+        this.dom.firstChild.checked = newVal;
     });
 
     this.checkedStateChanged.connect(this, function(newVal) {
       switch(newVal) {
         case Qt.UnChecked:
           self.checked = false;
+          this.dom.firstChild.indeterminate = false;
           break;
         case Qt.Checked:
           self.checked = true;
+          this.dom.firstChild.indeterminate = false;
           break;
         case Qt.PartiallyChecked:
-          self.partiallyCheckedEnabled = true;
           self.checked = false;
+          self.partiallyCheckedEnabled = true;
           break;
       }
+    });
+
+    this.partiallyCheckedEnabledChanged.connect(this, function(newVal) {
+        if (!self.checked) {
+          this.dom.firstChild.indeterminate = true;
+        } else {
+          this.dom.firstChild.indeterminate = false;
+        }
     });
 
     this.dom.firstChild.onchange = function() {

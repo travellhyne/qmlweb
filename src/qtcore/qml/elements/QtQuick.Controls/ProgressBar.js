@@ -7,7 +7,6 @@ registerQmlType({
     QMLItem.call(this, meta);
     var self = this;
 
-    this.name = "QMLProgressBar";
     this.dom.innerHTML = "<progress></progress>";
     this.dom.firstChild.style.width = "100%";
 
